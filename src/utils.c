@@ -1,6 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: achivela <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/19 11:49:32 by achivela          #+#    #+#             */
+/*   Updated: 2024/09/19 11:49:48 by achivela         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "../philo.h"
 
-void	put_error(char *s, t_params *par, t_philo *p, int malloc)
+int	put_error(char *s, t_params *par, t_philo *p, int malloc)
 {
 	if (malloc)
 	{
@@ -12,7 +23,7 @@ void	put_error(char *s, t_params *par, t_philo *p, int malloc)
 			free(p);
 	}		
 	printf("%s", s);
-	exit(1);
+	return(1);
 }
 
 int	ft_atoi(const char *str)
@@ -24,9 +35,10 @@ int	ft_atoi(const char *str)
 	i = 0;
 	n = 0;
 	sign = 1;
-
+	if (str[i] == '-')
+		sign = -1;
 	if (str[i] == '-' || str[i] == '+')
-		sign = (str[i++] == '-') ? -1 : 1;
+		i++;
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		n = n * 10 + (str[i++] - '0');
