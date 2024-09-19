@@ -1,19 +1,18 @@
 #ifndef PHILO_H
 #define PHILO_H
 #include<stdio.h>
-#include<stdlib.h>
-#include <limits.h>
+#include<stdlib.h> 
 
 typedef struct s_params
 {
-	int				num;
+	int				number_of_philosophers;
 	int				ready;
-	int				t2d;
-	int				t2e;
-	int				t2s;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
 	int				max_iter;
-	int				check_meal;
-	int				over;
+	int				check_n_snack;
+	int				end;
 	long int		start;
 	pthread_mutex_t	*death;
 	pthread_mutex_t	*fork;

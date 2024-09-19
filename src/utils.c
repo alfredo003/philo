@@ -29,11 +29,8 @@ int	ft_atoi(const char *str)
 		sign = (str[i++] == '-') ? -1 : 1;
 	while (str[i] >= '0' && str[i] <= '9')
 	{
-		if (n > LONG_MAX / 10 || (n == LONG_MAX / 10 && (str[i] - '0') > LONG_MAX % 10))
-			return (sign == 1 ? -1 : 0);
 		n = n * 10 + (str[i++] - '0');
 	}
 
 	return (sign * (int)n);
 }
-
