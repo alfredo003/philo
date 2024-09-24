@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: achivela <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/23 10:11:54 by achivela          #+#    #+#             */
+/*   Updated: 2024/09/23 10:11:56 by achivela         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #ifndef PHILO_H
 #define PHILO_H
 #include<stdio.h>
@@ -24,7 +35,7 @@ typedef struct s_philo
 	int				dead;
 	int				iter_num;
 	long int		thread_start;
-	long int		meal;
+	long int		snack;
 	pthread_t		life_tid;
 	pthread_mutex_t	*lf;
 	pthread_mutex_t	*rf;
