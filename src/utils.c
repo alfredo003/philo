@@ -26,6 +26,17 @@ int	put_error(char *s, t_params *par, t_philo *p, int malloc)
 	return(1);
 }
 
+long int	time_now(void)
+{
+	struct timeval	now;
+	long int milliseconds;
+
+	gettimeofday(&now, NULL);
+	milliseconds = (now.tv_sec * 1000) + (now.tv_usec / 1000);
+
+	return milliseconds;
+}
+
 int	ft_atoi(const char *str)
 {
 	int	i;

@@ -23,12 +23,15 @@ int	init_philo(t_params *p, t_philo *philo)
 static int init_thread(t_params *params,t_philo *philo)
 {
 	int	i;
-	
+
 	i = -1;
-	while (++i < params->num)
+	while (++i < params->number_of_philosophers)
 	{
 		philo[i].rigtht_fork = philo[(i + 1) % params->number_of_philosophers].left_fork;
-		if(p)
+		if(pthread_create(&philo[i].life_thread_id, NULL, &thread_routine, &philo[i]) == -1)
+			return (put_error("Error\nFeild thread!\n", params, philo, 2));
+		i = -1;
+		params->start = time_now();
 	}
 }
 

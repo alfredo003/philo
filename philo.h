@@ -13,6 +13,7 @@
 #define PHILO_H
 #include<stdio.h>
 #include<stdlib.h> 
+#include <sys/time.h>
 
 typedef struct s_params
 {
@@ -45,4 +46,5 @@ typedef struct s_philo
 int	put_error(char *s, t_params *par, t_philo *p, int malloc);
 int	ft_atoi(const char *str);
 int	start_params(t_params *params, char **argv);
+long int	time_now(void);
 #endif
