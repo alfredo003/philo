@@ -32,6 +32,13 @@ static int init_thread(t_params *params,t_philo *philo)
 			return (put_error("Error\nFeild thread!\n", params, philo, 2));
 		i = -1;
 		params->start = time_now();
+		while(++i < params->number_of_philosophers)
+		{
+			philo[i].thread_start = params->start;
+			philo[i].snack = params->start;
+		}
+		params->ready =1;
+		return (0);
 	}
 }
 

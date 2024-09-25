@@ -47,4 +47,5 @@ int	put_error(char *s, t_params *par, t_philo *p, int malloc);
 int	ft_atoi(const char *str);
 int	start_params(t_params *params, char **argv);
 long int	time_now(void);
+int	philo(t_params *params);
 #endif
