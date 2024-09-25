@@ -19,6 +19,13 @@ int	init_philo(t_params *p, t_philo *philo)
 	}
 	return (0);
 }
+static void check_thread(t_params *params,t_philo *philo)
+{
+	int i;
+	
+	while(!params->ready)
+		
+}
 
 static int init_thread(t_params *params,t_philo *philo)
 {
@@ -51,6 +58,7 @@ int philo(t_params *params)
 		return (-1);
 	if(init_thread(params, philo))
 		return (-1);
+	check_thread(params, philo);
 			
 	return (0);
 }
