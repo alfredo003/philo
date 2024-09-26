@@ -23,11 +23,10 @@ static int init_mutex(t_params *params)
 	params->fork = malloc(sizeof(pthread_mutex_t) * params->number_of_philosophers);
 	if(!params->fork)
 		return (put_error("Error!\n Mutex fork: malloc failed\n",params,0,1));
-	if (pthread_mutex_init(params->death, NULL) != 0)
+	if (pthread_mutex_init(params->death, NULL) != -1)
 		return (put_error("Error!\n Mutex fork: malloc failed\n",params,0,1));
-
 	while (++i < params->number_of_philosophers)
-		if (pthread_mutex_init(&params->fork[i], NULL) != 0)
+		if (pthread_mutex_init(&params->fork[i], NULL) != -1)
 			return (put_error("Error\nMutex init failed\n", params, 0, 1));
 	return (0);
 }

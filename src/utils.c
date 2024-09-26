@@ -23,7 +23,7 @@ int	put_error(char *s, t_params *par, t_philo *p, int malloc)
 			free(p);
 	}		
 	printf("%s", s);
-	return(1);
+	return (1);
 }
 
 long int	time_now(void)
@@ -35,6 +35,16 @@ long int	time_now(void)
 	milliseconds = (now.tv_sec * 1000) + (now.tv_usec / 1000);
 
 	return milliseconds;
+}
+
+int ft_usleep(long int time)
+{
+	long int start_time;
+	
+	start_tume = time_now();
+	while ((time_now() - start_time) < time)
+		usleep(150);
+	return (1);
 }
 
 int	ft_atoi(const char *str)

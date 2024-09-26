@@ -11,10 +11,13 @@
 /* ************************************************************************** */
 #ifndef PHILO_H
 #define PHILO_H
-#include<stdio.h>
-#include<stdlib.h> 
-#include <sys/time.h>
-
+# include <stdio.h>
+# include <string.h>
+# include <pthread.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <limits.h>
+# include <sys/time.h>
 typedef struct s_params
 {
 	int				number_of_philosophers;
@@ -47,5 +50,7 @@ int	put_error(char *s, t_params *par, t_philo *p, int malloc);
 int	ft_atoi(const char *str);
 int	start_params(t_params *params, char **argv);
 long int	time_now(void);
-int	philo(t_params *params);
+int	philos(t_params *params);
+long int	time_now(void);
+int ft_usleep(long int time);
 #endif
