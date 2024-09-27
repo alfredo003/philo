@@ -12,7 +12,7 @@ int	init_philo(t_params *p, t_philo *philo)
 	int	i;
 
 	i = -1;
-	while (++i < p->number_of_philosopherO timestamp deve ser a hora exata (em milissegundos) do evento, e X é o número do filósofo. Mensagens não devem se sobrepor, ou seja, deve haver sincronização para que os logs não se misturem entre threads diferentes.s)
+	while (++i < p->number_of_philosophers)
 	{
 		philo[i].id = i;
 		philo[i].dead = 0;
