@@ -41,8 +41,8 @@ typedef struct s_philo
 	long int		thread_start;
 	long int		snack;
 	pthread_t		life_tid;
-	pthread_mutex_t	*lf;
-	pthread_mutex_t	*rf;
+	pthread_mutex_t	*left_fork;
+	pthread_mutex_t	*right_fork;
 	t_params		*par;
 }	t_philo;
 
@@ -53,4 +53,8 @@ long int	time_now(void);
 int	philos(t_params *params);
 long int	time_now(void);
 int ft_usleep(long int time);
+int check_death(t_philo *philo);
+int someone_died(t_philo *philo);
+void	*routine(void *job);
+void print_logs(t_philo *philo,char *action);
 #endif

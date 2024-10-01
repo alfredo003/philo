@@ -26,6 +26,18 @@ int	put_error(char *s, t_params *par, t_philo *p, int malloc)
 	return (1);
 }
 
+void print_logs(t_philo *philo,char *action)
+{
+	pthread_mutex_lock(philo->par->death);
+	if(philo->par->end)
+	{
+		pthread_mutex_unlock(philo->par->death);
+		return ;
+	}
+	printf("%ldms %d %s\n", time_now() - philo->thread_start, philo->id, action);
+	pthread_mutex_unlock(philo->par->death);
+}
+
 long int	time_now(void)
 {
 	struct timeval	now;
@@ -41,7 +53,7 @@ int ft_usleep(long int time)
 {
 	long int start_time;
 	
-	start_tume = time_now();
+	start_time = time_now();
 	while ((time_now() - start_time) < time)
 		usleep(150);
 	return (1);

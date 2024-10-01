@@ -1,6 +1,6 @@
 #include "../philo.h"
 
-static int	check_snaks(t_philo params,int last)
+static int	check_snacks(t_philo params,int last)
 {
 	if(params.par->check_n_snack && last == params.par->number_of_philosophers -1 && params.par->max_iter)
 		return (ft_usleep(300));
@@ -20,11 +20,12 @@ int	init_philo(t_params *p, t_philo *philo)
 		philo[i].thread_start = 0;
 		philo[i].snack = 0;
 		philo[i].par = p;
-		philo[i].lf = &p->fork[i];
-		philo[i].rf = 0;
+		philo[i].left_fork = &p->fork[i];
+		philo[i].right_fork = 0;
 	}
 	return (0);
 }
+
 static void check_thread(t_params *params,t_philo *philo)
 {
 	int	i=0;
@@ -54,8 +55,8 @@ static int init_thread(t_params *params,t_philo *philo)
 	i = -1;
 	while (++i < params->number_of_philosophers)
 	{
-		philo[i].rigtht_fork = philo[(i + 1) % params->number_of_philosophers].left_fork;
-		if(pthread_create(&philo[i].life_thread_id, NULL, &thread_routine, &philo[i]) == -1)
+		philo[i].right_fork = philo[(i + 1) % params->number_of_philosophers].left_fork;
+		if(pthread_create(&philo[i].life_tid, NULL, &thread_routine, &philo[i]) == -1)
 			return (put_error("Error\nFeild thread!\n", params, philo, 1));
 	}
 	i = -1;
@@ -73,9 +74,9 @@ static void end_thread(t_params *params, t_philo *philo)
 {
 	int	i;
 	i =-1;
-	while (++i < p->number_of_philosophers)
+	while (++i < params->number_of_philosophers)
 		pthread_join(philo[i].life_tid, (void *)&philo[i]);
-	pthread_mutex_destroy(params->deth);
+	pthread_mutex_destroy(params->death);
 	pthread_mutex_destroy(params->fork);
 	free(params->death);
 	free(params->fork);
