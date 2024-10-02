@@ -27,7 +27,7 @@ int check_death(t_philo *philo)
 	return (0);
 }
 
-void	*thread_routine(void *job)
+void	*routine(void *job)
 {
 	t_philo	*p;
 

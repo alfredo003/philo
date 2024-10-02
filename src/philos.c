@@ -56,7 +56,7 @@ static int init_thread(t_params *params,t_philo *philo)
 	while (++i < params->number_of_philosophers)
 	{
 		philo[i].right_fork = philo[(i + 1) % params->number_of_philosophers].left_fork;
-		if(pthread_create(&philo[i].life_tid, NULL, &thread_routine, &philo[i]) == -1)
+		if(pthread_create(&philo[i].life_tid, NULL, &routine, &philo[i]) == -1)
 			return (put_error("Error\nFeild thread!\n", params, philo, 1));
 	}
 	i = -1;
