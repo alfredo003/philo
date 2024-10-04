@@ -27,11 +27,31 @@ int check_death(t_philo *philo)
 	return (0);
 }
 
-void	*routine(void *job)
+void ft_sleep_and_think(t_philo *p)
+{
+	ft_usleep(p->par->time_to_sleep);
+	print_logs(p,"is sleeping");
+	print_logs(p,"is thinking");
+}
+
+void ft_eat(t_philo *p)
+{
+	pthread_mutex_lock(p->left_fork);
+	print_logs(p,"has taken a fork");
+	pthread_mutex_lock(p->right_fork);
+	print_logs(p,"has taken a fork");
+	p->snack = time_now();
+	ft_usleep(p->par->time_to_eat);
+	print_logs(p,"is eating");
+	p->iter_num++;
+	pthread_mutex_unlock(p->left_fork);
+	pthread_mutex_unlock(p->right_fork);
+}
+void	*routine(void *task)
 {
 	t_philo	*p;
 
-	p = (t_philo *)job;
+	p = (t_philo *)task;
 	while (!p->par->ready)
 		continue ;
 	if (p->id & 1)
