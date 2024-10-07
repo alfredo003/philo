@@ -47,17 +47,16 @@ typedef struct s_philo
 	t_params		*par;
 }	t_philo;
 
-int		put_error(char *s, t_params *par, t_philo *p, int malloc);
-int		ft_atoi(const char *str);
-int		start_params(t_params *params, char **argv);
-int		ft_usleep(long int time);
-int		check_death(t_philo *philo);
-int		someone_died(t_philo *philo);
-int		philos(t_params *params);
-int		init_philo(t_params *p, t_philo *philo);
-int		check_snacks(t_philo params, int last);
+int			put_error(char *s, t_params *par, t_philo *p, int malloc);
+int			ft_atoi(const char *str);
+int			start_params(t_params *params, char **argv);
+int			ft_usleep(long int time);
+int			check_death(t_philo *philo);
+int			someone_died(t_philo *philo);
+int			philos(t_params *params);
+int			init_philo(t_params *p, t_philo *philo);
+int			check_snacks(t_philo params, int last);
 void		print_logs(t_philo *philo, char *action);
-void		ft_sleep_and_think(t_philo *p);
 void		*routine(void *job);
 long int	time_now(void);
 
