@@ -26,10 +26,10 @@ int	put_error(char *s, t_params *par, t_philo *p, int malloc)
 	return (1);
 }
 
-void print_logs(t_philo *philo,char *action)
+void	print_logs(t_philo *philo, char *action)
 {
 	pthread_mutex_lock(philo->par->death);
-	if(philo->par->end)
+	if (philo->par->end)
 	{
 		pthread_mutex_unlock(philo->par->death);
 		return ;
@@ -41,18 +41,15 @@ void print_logs(t_philo *philo,char *action)
 long int	time_now(void)
 {
 	struct timeval	now;
-	long int milliseconds;
 
 	gettimeofday(&now, NULL);
-	milliseconds = (now.tv_sec * 1000) + (now.tv_usec / 1000);
-
-	return milliseconds;
+	return ((now.tv_sec * 1000) + (now.tv_usec / 1000));
 }
 
-int ft_usleep(long int time)
+int	ft_usleep(long int time)
 {
-	long int start_time;
-	
+	long int	start_time;
+
 	start_time = time_now();
 	while ((time_now() - start_time) < time)
 		usleep(150);
@@ -62,20 +59,27 @@ int ft_usleep(long int time)
 int	ft_atoi(const char *str)
 {
 	int	i;
-	int	sign;
-	unsigned long long int	n;
+	int	neg;
+	int	res;
 
 	i = 0;
-	n = 0;
-	sign = 1;
+	neg = 0;
+	res = 0;
+	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\f'
+		|| str[i] == '\v' || str[i] == '\n' || str[i] == '\r')
+		i++;
 	if (str[i] == '-')
-		sign = -1;
+		neg = 1;
 	if (str[i] == '-' || str[i] == '+')
 		i++;
 	while (str[i] >= '0' && str[i] <= '9')
 	{
-		n = n * 10 + (str[i++] - '0');
+		res *= 10;
+		res += str[i] - 48;
+		i++;
 	}
-
-	return (sign * (int)n);
+	if (neg == 1)
+		return (-res);
+	else
+		return (res);
 }

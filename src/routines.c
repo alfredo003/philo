@@ -1,8 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   routines.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: achivela <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/07 14:09:20 by achivela          #+#    #+#             */
+/*   Updated: 2024/10/07 14:09:24 by achivela         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "../philo.h"
 
-
-
-int someone_died(t_philo *philo)
+int	someone_died(t_philo *philo)
 {
 	print_logs(philo, "die");
 	philo->par->end = 1;
@@ -12,13 +21,13 @@ int someone_died(t_philo *philo)
 	return (1);
 }
 
-int check_death(t_philo *philo)
+int	check_death(t_philo *philo)
 {
-	long int now;
-	
+	long int	now;
+
 	pthread_mutex_lock(philo->par->death);
 	now = time_now() - philo->snack;
-	if(now >= philo->par->time_to_die)
+	if (now >= philo->par->time_to_die)
 	{
 		pthread_mutex_unlock(philo->par->death);
 		return (someone_died(philo));
@@ -27,26 +36,27 @@ int check_death(t_philo *philo)
 	return (0);
 }
 
-void ft_sleep_and_think(t_philo *p)
+void	ft_sleep_and_think(t_philo *p)
 {
 	ft_usleep(p->par->time_to_sleep);
-	print_logs(p,"is sleeping");
-	print_logs(p,"is thinking");
+	print_logs(p, "is sleeping");
+	print_logs(p, "is thinking");
 }
 
-void ft_eat(t_philo *p)
+void	ft_eat(t_philo *p)
 {
 	pthread_mutex_lock(p->left_fork);
-	print_logs(p,"has taken a fork");
+	print_logs(p, "has taken a fork");
 	pthread_mutex_lock(p->right_fork);
-	print_logs(p,"has taken a fork");
+	print_logs(p, "has taken a fork");
 	p->snack = time_now();
 	ft_usleep(p->par->time_to_eat);
-	print_logs(p,"is eating");
+	print_logs(p, "is eating");
 	p->iter_num++;
 	pthread_mutex_unlock(p->left_fork);
 	pthread_mutex_unlock(p->right_fork);
 }
+
 void	*routine(void *task)
 {
 	t_philo	*p;

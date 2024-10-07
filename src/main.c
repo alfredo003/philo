@@ -15,9 +15,14 @@ int	main(int argc, char **argv)
 {
 	t_params	params;
 
-	if ((argc != 5 && argc != 6) || start_params(&params, argv))
-		return (put_error("Error: invalid arguments\n", &params, 0, 1));
-	if (philos(&params))
-		return (-1);
+	if ((argc == 5 || argc == 6))
+	{
+		if (start_params(&params, argv))
+		{
+			return (put_error("Error: invalid arguments\n", &params, 0, 1));
+		}
+		if (philos(&params))
+			return (-1);
+	}
 	return (0);
 }

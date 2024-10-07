@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PHILO_H
-#define PHILO_H
+# define PHILO_H
 # include <stdio.h>
 # include <string.h>
 # include <pthread.h>
@@ -18,6 +18,7 @@
 # include <unistd.h>
 # include <limits.h>
 # include <sys/time.h>
+
 typedef struct s_params
 {
 	int				number_of_philosophers;
@@ -46,15 +47,18 @@ typedef struct s_philo
 	t_params		*par;
 }	t_philo;
 
-int	put_error(char *s, t_params *par, t_philo *p, int malloc);
-int	ft_atoi(const char *str);
-int	start_params(t_params *params, char **argv);
+int		put_error(char *s, t_params *par, t_philo *p, int malloc);
+int		ft_atoi(const char *str);
+int		start_params(t_params *params, char **argv);
+int		ft_usleep(long int time);
+int		check_death(t_philo *philo);
+int		someone_died(t_philo *philo);
+int		philos(t_params *params);
+int		init_philo(t_params *p, t_philo *philo);
+int		check_snacks(t_philo params, int last);
+void		print_logs(t_philo *philo, char *action);
+void		ft_sleep_and_think(t_philo *p);
+void		*routine(void *job);
 long int	time_now(void);
-int	philos(t_params *params);
-long int	time_now(void);
-int ft_usleep(long int time);
-int check_death(t_philo *philo);
-int someone_died(t_philo *philo);
-void	*routine(void *job);
-void print_logs(t_philo *philo,char *action);
+
 #endif
