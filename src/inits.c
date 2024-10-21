@@ -1,4 +1,45 @@
 #include "../philo.h"
+int	init_philo(t_params *params, t_philo *philo)
+{
+	int	i;
+
+	i = 0;
+	while (++i <= params->n_philo)
+	{
+		philo[i].id = i;
+		philo[i].dead = 0;
+		philo[i].iter_num = 0;
+		philo[i].thread_start = 0;
+		philo[i].snack = 0;
+		philo[i].params = params;
+		philo[i].left_fork = &params->fork[i];
+		philo[i].right_fork = 0;
+	}
+	return (0);
+}
+
+int	init_thread(t_params *params, t_philo *philo)
+{
+	int	i;
+
+	i = 0;
+	while (++i <= params->n_philo)
+	{
+		philo[i].right_fork = philo[(i + 1) % params->n_philo].left_fork;
+		/*if (pthread_create(&philo[i].life_tid, NULL, &thread_routine, &philo[i]) == -1)
+			return (error_msg("Error\nFailed to create thread\n", params, philo, 2));*/
+	}
+	i = 0;
+	params->time_start = time_now();
+	while (++i <= params->n_philo)
+	{
+		philo[i].thread_start = params->time_start;
+		philo[i].snack = params->time_start;
+	}
+	params->ready = 1;
+	return (0);
+}
+
 static int	init_mutex(t_params *params)
 {
 	int	i;

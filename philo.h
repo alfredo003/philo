@@ -1,15 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/23 10:11:54 by achivela          #+#    #+#             */
-/*   Updated: 2024/10/21 08:26:51 by codespace        ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
+#ifndef PHILO_H
 # define PHILO_H
 # include <stdio.h>
 # include <string.h>
@@ -44,17 +33,18 @@ typedef struct s_philo
 	pthread_t		life_tid;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
-	t_params		*par;
+	t_params		*params;
 }	t_philo;
 
 int			put_error(char *string, t_params *params, t_philo *p, int malloc);
 int			ft_atoi(const char *str);
 int			init_params(t_params *params, char **argv);
+int	init_thread(t_params *params, t_philo *philo);
 // int			ft_usleep(long int time);
 // int			check_death(t_philo *philo);
 // int			someone_died(t_philo *philo);
-// int			philos(t_params *params);
-// int			init_philo(t_params *p, t_philo *philo);
+int			philos(t_params *params);
+int			init_philo(t_params *params, t_philo *philo);
 // int			check_snacks(t_philo params, int last);
 // void		print_logs(t_philo *philo, char *action);
 // void		*routine(void *job);
