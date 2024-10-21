@@ -7,9 +7,9 @@ LIB = -lpthread
 SRC = \
     ./src/main.c \
     ./src/inits.c \
-    ./src/philos.c \
-    ./src/utils.c \
-    ./src/routines.c
+    # ./src/philos.c \
+    # ./src/utils.c \
+    # ./src/routines.c
 
 OBJ = $(SRC:.c=.o)
 

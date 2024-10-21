@@ -15,7 +15,7 @@ int put_error(char *s, t_params *params, t_philo *philo, int malloc)
 }
 
 int	ft_atoi(const char *str)
-{
+{ 
 	unsigned long long int	nb;
 	int						i;
 

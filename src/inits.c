@@ -1,5 +1,4 @@
 #include "../philo.h"
-
 static int	init_mutex(t_params *params)
 {
 	int	i;
@@ -37,7 +36,7 @@ int	init_params(t_params *params, char **argv)
 	params->time_start = 0;
 	params->ready = 0;
 	params->end = 0;
-	if (argv[5])
+	if (argv[5]) 
 	{
 		params->check_n_snack = 1;
 		params->max_iter = ft_atoi(argv[5]);
