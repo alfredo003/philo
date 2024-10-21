@@ -29,7 +29,7 @@ typedef struct s_params
 	int				max_iter;
 	int				check_n_snack;
 	int				end;
-	long int		start;
+	long int		time_start;
 	pthread_mutex_t	*death;
 	pthread_mutex_t	*fork;
 }	t_params;
