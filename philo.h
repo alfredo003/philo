@@ -47,7 +47,7 @@ int			philos(t_params *params);
 int			init_philo(t_params *params, t_philo *philo);
 // int			check_snacks(t_philo params, int last);
 // void		print_logs(t_philo *philo, char *action);
-// void		*routine(void *job);
+void		*routine(void *task);
 // long int	time_now(void);
 
 #endif

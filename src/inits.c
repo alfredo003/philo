@@ -26,8 +26,8 @@ int	init_thread(t_params *params, t_philo *philo)
 	while (++i <= params->n_philo)
 	{
 		philo[i].right_fork = philo[(i + 1) % params->n_philo].left_fork;
-		/*if (pthread_create(&philo[i].life_tid, NULL, &thread_routine, &philo[i]) == -1)
-			return (error_msg("Error\nFailed to create thread\n", params, philo, 2));*/
+		if (pthread_create(&philo[i].life_tid, NULL, &routine, &philo[i]) == -1)
+			return (error_msg("Failed to create thread\n", params, philo, 1));
 	}
 	i = 0;
 	params->time_start = time_now();
