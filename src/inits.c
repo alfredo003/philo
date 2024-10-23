@@ -1,4 +1,17 @@
+/******************************************************************************/
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   inits.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: achivela <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/23 10:15:36 by achivela          #+#    #+#             */
+/*   Updated: 2024/10/23 10:15:37 by achivela         ###   ########.fr       */
+/*                                                                            */
+/******************************************************************************/
+
 #include "../philo.h"
+
 int	init_philo(t_params *params, t_philo *philo)
 {
 	int	i;
@@ -27,7 +40,7 @@ int	init_thread(t_params *params, t_philo *philo)
 	{
 		philo[i].right_fork = philo[(i + 1) % params->n_philo].left_fork;
 		if (pthread_create(&philo[i].life_tid, NULL, &routine, &philo[i]) == -1)
-			return (error_msg("Failed to create thread\n", params, philo, 1));
+			return (put_error("Failed to create thread\n", params, philo, 1));
 	}
 	i = 0;
 	params->time_start = time_now();
@@ -77,7 +90,7 @@ int	init_params(t_params *params, char **argv)
 	params->time_start = 0;
 	params->ready = 0;
 	params->end = 0;
-	if (argv[5]) 
+	if (argv[5])
 	{
 		params->check_n_snack = 1;
 		params->max_iter = ft_atoi(argv[5]);

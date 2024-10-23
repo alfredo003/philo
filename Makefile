@@ -9,7 +9,7 @@ SRC = \
     ./src/inits.c \
     ./src/utils.c \
     ./src/philo.c \
-    # ./src/routines.c
+    ./src/routine.c
 
 OBJ = $(SRC:.c=.o)
 
