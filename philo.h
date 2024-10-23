@@ -1,3 +1,15 @@
+/******************************************************************************/
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: achivela <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/23 11:44:44 by achivela          #+#    #+#             */
+/*   Updated: 2024/10/23 12:02:59 by achivela         ###   ########.fr       */
+/*                                                                            */
+/******************************************************************************/
+
 #ifndef PHILO_H
 # define PHILO_H
 # include <stdio.h>
@@ -40,7 +52,7 @@ int			put_error(char *string, t_params *params, t_philo *p, int malloc);
 int			ft_atoi(const char *str);
 int			init_params(t_params *params, char **argv);
 int			init_thread(t_params *params, t_philo *philo);
-// int			ft_usleep(long int time);
+int			ft_usleep(long int time);
 // int			check_death(t_philo *philo);
 // int			someone_died(t_philo *philo);
 int			philos(t_params *params);
