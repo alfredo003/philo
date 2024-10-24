@@ -3,29 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alajara- <alajara-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: achivela <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/04 21:59:00 by alajara-          #+#    #+#             */
-/*   Updated: 2021/11/04 22:17:00 by alajara-         ###   ########.fr       */
+/*   Created: 2024/09/19 11:49:01 by achivela          #+#    #+#             */
+/*   Updated: 2024/09/19 11:49:17 by achivela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../philo.h"
 
-// Only executes if are 4 or 5 arguments and 
-// if the parameters are properly initialitated.
-int	main(int ac, char **ag)
+int	main(int argc, char **argv)
 {
-	t_params	p;
+	t_params	params;
 
-	if (ac != 5 && ac != 6)
-		return (error_msg("Error: invalid arguments\n", 0, 0, 0));
-	if (init_params(&p, ac, ag))
+	if (argc != 5 && argc != 6)
+		return (put_msg("./philo [num_philo] [time_die] [time_eat] [time_sleep]\n", 0, 0, 0));
+	if (init_params(&params, argc, argv))
 	{
-		end_monitor(&p, NULL);
+		end_monitor(&params, NULL);
 		return (EXIT_FAILURE);
 	}
-	if (monitoring(&p))
+	if (monitoring(&params))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

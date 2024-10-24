@@ -1,50 +1,38 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: alajara- <alajara-@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/04 21:59:00 by alajara-          #+#    #+#             */
-/*   Updated: 2021/11/04 22:17:00 by alajara-         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include "../philo.h"
 
-#include "philo.h"
-
-int	init_philo(t_params *par, t_philo *philo)
+int	init_philo(t_params *params, t_philo *philo)
 {
 	int	i;
 
 	i = -1;
-	while (++i < par->num)
+	while (++i < params->n_philo)
 	{
 		philo[i].id = i;
 		philo[i].dead = 0;
 		philo[i].iter_num = 0;
 		philo[i].monitor_start = 0;
 		philo[i].meal = 0;
-		philo[i].par = par;
-		philo[i].lf = &par->fork[i];
-		philo[i].rf = 0;
+		philo[i].params = params;
+		philo[i].left_fork = &par->fork[i];
+		philo[i].right_fork = 0;
 	}
 	return (0);
 }
 
-static int	mutex_alloc(t_params *par)
+static int	mutex_alloc(t_params *params)
 {
-	par->meal_mtx = malloc(sizeof(pthread_mutex_t));
+	params->meal_mtx = malloc(sizeof(pthread_mutex_t));
 	if (!par->meal_mtx)
-		return (error_msg("Error\nMutex meal: malloc failed\n", par, 0, 1));
-	par->ready_mtx = malloc(sizeof(pthread_mutex_t));
+		return (put_msg("Mutex meal: malloc failed\n", params, 0, 1));
+	params->ready_mtx = malloc(sizeof(pthread_mutex_t));
 	if (!par->ready_mtx)
-		return (error_msg("Error\nMutex ready: malloc failed\n", par, 0, 1));
-	par->over_mtx = malloc(sizeof(pthread_mutex_t));
+		return (put_msg("Error\nMutex ready: malloc failed\n", params, 0, 1));
+	params->over_mtx = malloc(sizeof(pthread_mutex_t));
 	if (!par->over_mtx)
-		return (error_msg("Error\nMutex over: malloc failed\n", par, 0, 1));
-	par->fork = malloc(sizeof(pthread_mutex_t) * par->num);
-	if (!par->fork)
-		return (error_msg("Error\nMutex fork: malloc failed\n", par, 0, 1));
+		return (put_msg("Error\nMutex over: malloc failed\n", params, 0, 1));
+	params->fork = malloc(sizeof(pthread_mutex_t) * par->num);
+	if (!params->fork)
+		return (put_msg("Error\nMutex fork: malloc failed\n", params, 0, 1));
 	return (0);
 }
 
@@ -57,16 +45,16 @@ static int	init_params_mutex(t_params *par)
 	if (mutex_alloc(par))
 		return (1);
 	if (pthread_mutex_init(par->meal_mtx, NULL) == -1)
-		return (error_msg("Error\nMutex meal failed\n", par, 0, 1));
+		return (put_msg("Error\nMutex meal failed\n", par, 0, 1));
 	if (pthread_mutex_init(par->over_mtx, NULL) == -1)
-		return (error_msg("Error\nMutex init failed\n", par, 0, 1));
+		return (put_msg("Error\nMutex init failed\n", par, 0, 1));
 	i = -1;
 	if (pthread_mutex_init(par->ready_mtx, NULL) == -1)
-		return (error_msg("Error\nMutex init failed\n", par, 0, 1));
+		return (put_msg("Error\nMutex init failed\n", par, 0, 1));
 	i = -1;
 	while (++i < par->num)
 		if (pthread_mutex_init(&par->fork[i], NULL) == -1)
-			return (error_msg("Error\nMutex init failed\n", par, 0, 1));
+			return (put_msg("Error\nMutex init failed\n", par, 0, 1));
 	return (0);
 }
 
@@ -109,7 +97,7 @@ int	init_monitor(t_params *par, t_philo *philo)
 		philo[i].rf = philo[(i + 1) % par->num].lf;
 		if (pthread_create(&philo[i].life_tid, NULL, &philo_routine,
 				&philo[i]) == -1)
-			return (error_msg("Error\nFail createing thread\n", par, philo, 2));
+			return (put_msg("Error\nFail createing thread\n", par, philo, 2));
 	}
 	i = -1;
 	par->start = time_now();
