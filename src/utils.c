@@ -1,62 +1,71 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achivela <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: alajara- <alajara-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/23 10:56:18 by achivela          #+#    #+#             */
-/*   Updated: 2024/10/23 12:26:04 by achivela         ###   ########.fr       */
+/*   Created: 2021/11/04 21:59:00 by alajara-          #+#    #+#             */
+/*   Updated: 2021/11/04 22:17:00 by alajara-         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
-#include "../philo.h"
+#include "philo.h"
 
-int	put_error(char *s, t_params *params, t_philo *philo, int malloc)
+int	error_msg(char *s, t_params *par, t_philo *philo, int malloc)
 {
 	if (malloc)
 	{
-		if (params->death)
-			free(params->death);
-		if (params->fork)
-			free(params->fork);
+		if (par->meal_mtx)
+			free(par->meal_mtx);
+		if (par->over_mtx)
+			free(par->over_mtx);
+		if (par->fork)
+			free(par->fork);
+		if (par->ready_mtx)
+			free(par->ready_mtx);
 		if (philo)
 			free(philo);
 	}
 	return (printf("%s", s));
 }
 
+void	print_routine(t_philo *philo, char *action)
+{
+	if (philo->par->over == 1)
+		return ;
+	printf("%ld ms %d %s\n", time_now() - philo->monitor_start, philo->id + 1,
+		action);
+}
+
+// When all philos
+void	final_print(int alive)
+{
+	printf("\t/-=-=-=-=-=-=-=-=-=\\\n");
+	if (alive)
+		printf("\t|  I'M LOVIN' IT®  |\t🍔🍟\n");
+	else
+		printf("\t|     YOU DIED     |\t💀\n");
+	printf("\t\\=-=-=-=-=-=-=-=-=-/\n");
+}
+
 int	ft_atoi(const char *str)
 {
-	unsigned long long int	nb;
-	int						i;
+	int	i;
+	int	sign;
+	int	res;
 
 	i = 0;
-	nb = 0;
-	while (str[i] && (str[i] >= '0' && str[i] <= '9'))
-	{
-		nb = nb * 10 + (str[i] - '0');
+	sign = 1;
+	res = 0;
+	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
 		i++;
-	}
-	if (nb > INT_MAX)
-		return (-1);
-	return ((int)nb);
-}
-
-long int	time_now(void)
-{
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
-}
-
-int	ft_usleep(long int time)
-{
-	long int	start_time;
-
-	start_time = time_now();
-	while ((time_now() - start_time) < time)
-		usleep(150);
-	return (1);
+	if (str[i] == '-')
+		sign = -1;
+	if (str[i] == '-' || str[i] == '+')
+		i++;
+	--i;
+	while (str[++i] >= '0' && str[i] <= '9')
+		res = (res * 10) + str[i] - '0';
+	return (res * sign);
 }

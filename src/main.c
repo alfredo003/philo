@@ -1,29 +1,31 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achivela <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: alajara- <alajara-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/23 09:54:16 by achivela          #+#    #+#             */
-/*   Updated: 2024/10/23 12:28:51 by achivela         ###   ########.fr       */
+/*   Created: 2021/11/04 21:59:00 by alajara-          #+#    #+#             */
+/*   Updated: 2021/11/04 22:17:00 by alajara-         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
-#include "../philo.h"
+#include "philo.h"
 
-int	main(int argc, char **argv)
+// Only executes if are 4 or 5 arguments and 
+// if the parameters are properly initialitated.
+int	main(int ac, char **ag)
 {
-	t_params	params;
+	t_params	p;
 
-	if (argc == 5 || argc == 6)
+	if (ac != 5 && ac != 6)
+		return (error_msg("Error: invalid arguments\n", 0, 0, 0));
+	if (init_params(&p, ac, ag))
 	{
-		if (init_params(&params, argv))
-			return (put_error("Error: invalid arguments\n", &params, 0, 1));
-		if (philos(&params))
-			return (1);
+		end_monitor(&p, NULL);
+		return (EXIT_FAILURE);
 	}
-	//else
-		//put_error("./philo [num_of_philo] [time_die] [time_eat] [time_sleep]\n",&params, 0, 0);
-	return (0);
+	if (monitoring(&p))
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
