@@ -1,17 +1,29 @@
+/******************************************************************************/
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: achivela <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/25 16:48:39 by achivela          #+#    #+#             */
+/*   Updated: 2024/10/25 17:13:46 by achivela         ###   ########.fr       */
+/*                                                                            */
+/******************************************************************************/
+
 #include "../philo.h"
 
-int	put_msg(char *s, t_params *par, t_philo *philo, int malloc)
+int	put_msg(char *s, t_params *params, t_philo *philo, int malloc)
 {
 	if (malloc)
 	{
-		if (par->meal_mtx)
-			free(par->meal_mtx);
-		if (par->over_mtx)
-			free(par->over_mtx);
-		if (par->fork)
-			free(par->fork);
-		if (par->ready_mtx)
-			free(par->ready_mtx);
+		if (params->meal_mtx)
+			free(params->meal_mtx);
+		if (params->over_mtx)
+			free(params->over_mtx);
+		if (params->fork)
+			free(params->fork);
+		if (params->ready_mtx)
+			free(params->ready_mtx);
 		if (philo)
 			free(philo);
 	}
@@ -24,17 +36,6 @@ void	print_routine(t_philo *philo, char *action)
 		return ;
 	printf("%ld ms %d %s\n", time_now() - philo->monitor_start, philo->id + 1,
 		action);
-}
-
-// When all philos
-void	final_print(int alive)
-{
-	printf("\t/-=-=-=-=-=-=-=-=-=\\\n");
-	if (alive)
-		printf("\t|  I'M LOVIN' IT®  |\t🍔🍟\n");
-	else
-		printf("\t|     YOU DIED     |\t💀\n");
-	printf("\t\\=-=-=-=-=-=-=-=-=-/\n");
 }
 
 int	ft_atoi(const char *str)
@@ -57,6 +58,7 @@ int	ft_atoi(const char *str)
 		res = (res * 10) + str[i] - '0';
 	return (res * sign);
 }
+
 long int	time_now(void)
 {
 	struct timeval	now;
