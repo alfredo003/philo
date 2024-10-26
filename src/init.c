@@ -6,7 +6,7 @@
 /*   By: achivela <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 16:53:43 by achivela          #+#    #+#             */
-/*   Updated: 2024/10/25 18:01:48 by achivela         ###   ########.fr       */
+/*   Updated: 2024/10/26 14:50:19 by achivela         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -25,7 +25,7 @@ int	init_philo(t_params *params, t_philo *philo)
 		philo[i].monitor_start = 0;
 		philo[i].meal = 0;
 		philo[i].params = params;
-		philo[i].left_fork = &par->fork[i];
+		philo[i].left_fork = &params->fork[i];
 		philo[i].right_fork = 0;
 	}
 	return (0);
@@ -34,15 +34,15 @@ int	init_philo(t_params *params, t_philo *philo)
 static int	mutex_alloc(t_params *params)
 {
 	params->meal_mtx = malloc(sizeof(pthread_mutex_t));
-	if (!par->meal_mtx)
+	if (!params->meal_mtx)
 		return (put_msg("Mutex meal: malloc failed\n", params, 0, 1));
 	params->ready_mtx = malloc(sizeof(pthread_mutex_t));
-	if (!par->ready_mtx)
+	if (!params->ready_mtx)
 		return (put_msg("Mutex ready: malloc failed\n", params, 0, 1));
 	params->over_mtx = malloc(sizeof(pthread_mutex_t));
-	if (!par->over_mtx)
+	if (!params->over_mtx)
 		return (put_msg("Mutex over: malloc failed\n", params, 0, 1));
-	params->fork = malloc(sizeof(pthread_mutex_t) * par->num);
+	params->fork = malloc(sizeof(pthread_mutex_t) * params->n_philo);
 	if (!params->fork)
 		return (put_msg("Mutex fork: malloc failed\n", params, 0, 1));
 	return (0);
@@ -52,8 +52,8 @@ static int	init_mutex(t_params *params)
 {
 	int	i;
 
-	par->over_mtx = 0;
-	par->fork = 0;
+	params->over_mtx = 0;
+	params->fork = 0;
 	if (mutex_alloc(params))
 		return (1);
 	if (pthread_mutex_init(params->meal_mtx, NULL) == -1)
@@ -62,7 +62,7 @@ static int	init_mutex(t_params *params)
 		return (put_msg("Mutex init failed\n", params, 0, 1));
 	i = -1;
 	if (pthread_mutex_init(params->ready_mtx, NULL) == -1)
-		return (put_msg("Error\nMutex init failed\n", params, 0, 1));
+		return (put_msg("Mutex init failed\n", params, 0, 1));
 	i = -1;
 	while (++i < params->n_philo)
 		if (pthread_mutex_init(&params->fork[i], NULL) == -1)
@@ -96,32 +96,32 @@ int	init_params(t_params *params, int argc, char **argv)
 		mutex = init_mutex(params);
 	return (mutex || params->n_philo <= 0
 		|| params->time_die <= 0 || params->time_die <= 0
-		|| params->time_sleep <= 0 || par->max_iter == 0);
+		|| params->time_sleep <= 0 || params->max_iter == 0);
 }
 
-int	init_monitor(t_params *par, t_philo *philo)
+int	init_monitor(t_params *params, t_philo *philo)
 {
 	int	i;
 
 	i = -1;
-	while (++i < par->num)
+	while (++i < params->n_philo)
 	{
-		philo[i].rf = philo[(i + 1) % par->num].lf;
+		philo[i].right_fork = philo[(i + 1) % params->n_philo].left_fork;
 		if (pthread_create(&philo[i].life_tid, NULL, &philo_routine,
 				&philo[i]) == -1)
-			return (put_msg("Error\nFail createing thread\n", par, philo, 2));
+			return (put_msg("fail createing thread\n", params, philo, 2));
 	}
 	i = -1;
-	par->start = time_now();
-	while (++i < par->num)
+	params->start = time_now();
+	while (++i < params->n_philo)
 	{
-		philo[i].monitor_start = par->start;
-		pthread_mutex_lock(par->meal_mtx);
-		philo[i].meal = par->start;
-		pthread_mutex_unlock(par->meal_mtx);
+		philo[i].monitor_start = params->start;
+		pthread_mutex_lock(params->meal_mtx);
+		philo[i].meal = params->start;
+		pthread_mutex_unlock(params->meal_mtx);
 	}
-	pthread_mutex_lock(par->ready_mtx);
-	par->ready = 1;
-	pthread_mutex_unlock(par->ready_mtx);
+	pthread_mutex_lock(params->ready_mtx);
+	params->ready = 1;
+	pthread_mutex_unlock(params->ready_mtx);
 	return (0);
 }

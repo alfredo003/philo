@@ -1,61 +1,59 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   philo_routine.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alajara- <alajara-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: achivela <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/04 21:59:00 by alajara-          #+#    #+#             */
-/*   Updated: 2021/11/04 22:17:00 by alajara-         ###   ########.fr       */
+/*   Created: 2024/10/26 13:00:41 by achivela          #+#    #+#             */
+/*   Updated: 2024/10/26 14:47:02 by achivela         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "../philo.h"
 
 static void	print_routine_mutex(t_philo *philo, char *action)
 {
-	pthread_mutex_lock(philo->par->over_mtx);
+	pthread_mutex_lock(philo->params->over_mtx);
 	print_routine(philo, action);
-	pthread_mutex_unlock(philo->par->over_mtx);
+	pthread_mutex_unlock(philo->params->over_mtx);
 }
 
-// The cool part of this project and where the magic happen.
 static void	ft_routine(t_philo *philo)
 {
-	pthread_mutex_lock(philo->lf);
-	print_routine_mutex(philo, LFORK);
-	pthread_mutex_lock(philo->rf);
-	print_routine_mutex(philo, RFORK);
-	pthread_mutex_lock(philo->par->meal_mtx);
+	pthread_mutex_lock(philo->left_fork);
+	print_routine_mutex(philo, "has taken left fork");
+	pthread_mutex_lock(philo->right_fork);
+	print_routine_mutex(philo, "has taken right fork");
+	pthread_mutex_lock(philo->params->meal_mtx);
 	philo->meal = time_now();
 	philo->iter_num++;
-	pthread_mutex_unlock(philo->par->meal_mtx);
-	print_routine_mutex(philo, EAT);
-	ft_usleep(philo->par->t2e);
-	print_routine_mutex(philo, SLEEP);
-	pthread_mutex_unlock(philo->lf);
-	pthread_mutex_unlock(philo->rf);
-	ft_usleep(philo->par->t2s);
-	print_routine_mutex(philo, THINK);
+	pthread_mutex_unlock(philo->params->meal_mtx);
+	print_routine_mutex(philo, "is eating");
+	ft_usleep(philo->params->time_eat);
+	print_routine_mutex(philo, "is sleeping");
+	pthread_mutex_unlock(philo->left_fork);
+	pthread_mutex_unlock(philo->right_fork);
+	ft_usleep(philo->params->time_sleep);
+	print_routine_mutex(philo, "is thinking");
 }
 
-// 
-void	*philo_routine(void *job)
+void	*philo_routine(void *task)
 {
 	t_philo	*philo;
 
-	philo = (t_philo *)job;
-	while (!pthread_mutex_lock(philo->par->ready_mtx) && !philo->par->ready
-		&& !pthread_mutex_unlock(philo->par->ready_mtx))
+	philo = (t_philo *)task;
+	while (!pthread_mutex_lock(philo->params->ready_mtx) && !philo->params->ready
+		&& !pthread_mutex_unlock(philo->params->ready_mtx))
 		usleep(50);
-	pthread_mutex_unlock(philo->par->ready_mtx);
+	pthread_mutex_unlock(philo->params->ready_mtx);
 	if (philo->id & 1)
-		ft_usleep(philo->par->t2e * 0.9 + 1);
-	while (!pthread_mutex_lock(philo->par->over_mtx) && !philo->par->over)
+		ft_usleep(philo->params->time_eat * 0.9 + 1);
+	while (!pthread_mutex_lock(philo->params->over_mtx) && !philo->params->over)
 	{
-		pthread_mutex_unlock(philo->par->over_mtx);
+		pthread_mutex_unlock(philo->params->over_mtx);
 		ft_routine(philo);
 	}
-	pthread_mutex_unlock(philo->par->over_mtx);
+	pthread_mutex_unlock(philo->params->over_mtx);
 	return (NULL);
 }

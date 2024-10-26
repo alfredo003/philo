@@ -6,7 +6,7 @@
 /*   By: achivela <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 16:48:39 by achivela          #+#    #+#             */
-/*   Updated: 2024/10/25 17:13:46 by achivela         ###   ########.fr       */
+/*   Updated: 2024/10/26 14:50:45 by achivela         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -32,7 +32,7 @@ int	put_msg(char *s, t_params *params, t_philo *philo, int malloc)
 
 void	print_routine(t_philo *philo, char *action)
 {
-	if (philo->par->over == 1)
+	if (philo->params->over == 1)
 		return ;
 	printf("%ld ms %d %s\n", time_now() - philo->monitor_start, philo->id + 1,
 		action);
