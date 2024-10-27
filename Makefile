@@ -1,3 +1,4 @@
+
 NAME = philo
 
 CC = cc
@@ -31,4 +32,3 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
-
