@@ -1,34 +1,43 @@
-
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: achivela <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/10/28 12:01:45 by achivela          #+#    #+#              #
+#    Updated: 2024/10/28 12:01:47 by achivela         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 NAME = philo
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-LIB = -lpthread 
 
-SRC = \
-    ./src/main.c \
-    ./src/init.c \
-    ./src/philo_routine.c \
-    ./src/monitor.c \
-    ./src/monitor_checks.c \
-    ./src/utils.c 
+SRC = ./src/main.c \
+      ./src/validate_arg.c \
+      ./src/start_phi.c \
+      ./src/routine.c \
+      ./src/utili.c \
+
 
 OBJ = $(SRC:.c=.o)
 
-%.o: %.c
-	@$(CC) $(CFLAGS) -c $< -o $@
-
-$(NAME): $(OBJ)
-	$(CC) $(OBJ) $(CFLAGS) $(LIB) -o $(NAME)
-
 all: $(NAME)
 
+$(NAME): $(OBJ)
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ)
+
+%.o: %.c 
+	@$(CC) $(CFLAGS) -c $< -o $@
+
 clean:
-	@rm -rf $(OBJ)
+	@rm -f $(OBJ)
 
 fclean: clean
-	@rm -rf $(NAME)
+	@rm -f $(NAME)
 
 re: fclean all
 
 .PHONY: all clean fclean re
+
