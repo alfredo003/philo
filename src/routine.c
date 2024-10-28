@@ -59,7 +59,7 @@ char	*ft_status_conversion(char c)
 	char	*str;
 
 	if (c == 'e')
-		str = "is eating \n";
+		str = "\033[32mis eating\033[0m\n";
 	else if (c == 'f')
 		str = "has taken a fork\n";
 	else if (c == 's')

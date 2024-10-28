@@ -62,31 +62,31 @@ int	destroy_my_mutex(t_th *th)
 	return (0);
 }
 
-int	main(int ac, char **av)
+int	main(int argc, char **argv)
 {
-	t_th	th;
-	t_ph	*ph;
-	int		i;
+	t_params	params;
+	t_philo	*philo;
+	int	i;
 
 	i = 0;
-	if (validate_args(ac, av))
+	if (check_args(argc, argv))
 		return (1);
-	start_structs(&th, ac, av);
-	th.ac = ac;
-	th.av = av;
-	th.th = (pthread_t *)malloc(sizeof(pthread_t) * th.num_ph);
-	ph = (t_ph *)malloc(sizeof(t_ph) * th.num_ph);
-	while (i < th.num_ph)
+	start_structs(&params, argc, argv);
+	params.ac = argc;
+	params.av = argv;
+	params.threads = (pthread_t *)malloc(sizeof(pthread_t) * params.n_philo);
+	philo = (t_philo *)malloc(sizeof(t_philo) * params.n_philo);
+	while (i < params.n_philo)
 	{
-		init_ph(&ph[i], &th, i + 1);
-		pthread_create(&th.th[i], NULL, &ft_routine, &ph[i]);
+		init_philo(&philo[i], &params, i + 1);
+		pthread_create(&params.threads[i], NULL, &ft_routine, &philo[i]);
 		usleep(50);
 		i++;
 	}
 	i = 0;
-	while (i < th.num_ph)
-		pthread_join(th.th[i++], NULL);
-	free(ph);
-	destroy_my_mutex(&th);
-	free(th.th);
+	while (i < params.n_philo)
+		pthread_join(params.threads[i++], NULL);
+	free(philo);
+	destroy_my_mutex(&params);
+	free(params.threads);
 }

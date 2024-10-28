@@ -15,10 +15,10 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
 SRC = ./src/main.c \
-      ./src/validate_arg.c \
+      ./src/validation.c \
       ./src/start_phi.c \
       ./src/routine.c \
-      ./src/utili.c \
+      ./src/utils.c \
 
 
 OBJ = $(SRC:.c=.o)

@@ -7,23 +7,23 @@
 # include <stdlib.h>
 # include <stdio.h>
 
-typedef struct s_thread
+typedef struct s_params
 {
-	pthread_t		*th;
+	pthread_t		*threads;
 	pthread_mutex_t	init_mutex;
 	pthread_mutex_t	*eat_mutex;
 	pthread_mutex_t	dead_mutex;
 	pthread_mutex_t	g_print_mutex;
-	int				num_ph;
+	int				n_philo;
 	int				t_die;
 	int				t_eat;
 	int				t_sleep;
 	int				died;
 	int				ac;
 	char			**av;
-}					t_th;
+}					t_params;
 
-typedef struct s_philosopher
+typedef struct s_philo
 {
 	int				id;
 	int				num_ref;
@@ -31,7 +31,7 @@ typedef struct s_philosopher
 	int				stamina;
 	struct timeval	t_born;
 	t_th			*th;
-}					t_ph;
+}					t_philo;
 
 void		start_structs(t_th *th, int ac, char **av);
 void		init_ph(t_ph *ph, t_th *th, int id);
