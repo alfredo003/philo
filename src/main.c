@@ -1,77 +1,77 @@
  #include "../header/philo.h"
 
-int	ft_wait_for_start(t_ph *ph)
+int	ft_wait_for_start(t_philo *philo)
 {
-	pthread_mutex_lock(&ph->th->init_mutex);
-	gettimeofday(&ph->t_born, NULL);
-	pthread_mutex_unlock(&ph->th->init_mutex);
-	if (ph->id % 2 == 0)
-		ft_usleep(ph, 10);
+	pthread_mutex_lock(&philo->par->init_mutex);
+	gettimeofday(&philo->t_born, NULL);
+	pthread_mutex_unlock(&philo->par->init_mutex);
+	if (philo->id % 2 == 0)
+		ft_usleep(philo, 10);
 	return (1);
 }
 
-void	caseof1(t_ph *ph)
+void	caseof1(t_philo *philo)
 {
-	gettimeofday(&ph->t_born, NULL);
-	ft_usleep(ph, ph->th->t_die);
-	printf("%d %d died\n", get_elapsed_time_ms(ph->t_born), ph->id);
+	gettimeofday(&philo->t_born, NULL);
+	ft_usleep(philo, philo->par->time_die);
+	printf("%d %d died\n", get_elapsed_time_ms(philo->t_born), philo->id);
 }
 
 void	*ft_routine(void *arg)
 {
-	t_ph		ph;
+	t_philo		philo;
 
-	ph = *(t_ph *)arg;
-	if (ph.th->num_ph == 1)
+	philo = *(t_philo *)arg;
+	if (philo.par->n_philo == 1)
 	{
-		caseof1(&ph);
+		caseof1(&philo);
 		return (NULL);
 	}
 	else
-		ft_wait_for_start(&ph);
-	while (ph.num_ref != 0)
+		ft_wait_for_start(&philo);
+	while (philo.num_ref != 0)
 	{
-		if (ft_die(&ph))
+		if (ft_die(&philo))
 			break ;
-		check_forks(&ph);
-		ft_printf_status(&ph, 's');
-		if (ft_die(&ph))
+		check_forks(&philo);
+		ft_printf_status(&philo, 's');
+		if (ft_die(&philo))
 			break ;
-		ft_usleep(&ph, ph.th->t_sleep);
-		ft_printf_status(&ph, 't');
-		if (ft_die(&ph))
+		ft_usleep(&philo, philo.par->time_sleep);
+		ft_printf_status(&philo, 't');
+		if (ft_die(&philo))
 			break ;
 	}
 	return (NULL);
 }
 
-int	destroy_my_mutex(t_th *th)
+int	destroy_my_mutex(t_params *params)
 {
 	int	i;
 
 	i = 0;
-	while (i < th->num_ph)
+	while (i < params->n_philo)
 	{
-		pthread_mutex_destroy(&th->eat_mutex[i]);
+		pthread_mutex_destroy(&params->eat_mutex[i]);
 		i++;
 	}
-	pthread_mutex_destroy(&th->init_mutex);
-	pthread_mutex_destroy(&th->dead_mutex);
-	pthread_mutex_destroy(&th->g_print_mutex);
-	free(th->eat_mutex);
+	pthread_mutex_destroy(&params->init_mutex);
+	pthread_mutex_destroy(&params->dead_mutex);
+	pthread_mutex_destroy(&params->g_print_mutex);
+	free(params->eat_mutex);
 	return (0);
 }
 
 int	main(int argc, char **argv)
 {
 	t_params	params;
-	t_philo	*philo;
+	t_philo		*philo;
 	int	i;
 
 	i = 0;
 	if (check_args(argc, argv))
 		return (1);
-	start_structs(&params, argc, argv);
+	init_params(&params, argc, argv);
 	params.ac = argc;
 	params.av = argv;
 	params.threads = (pthread_t *)malloc(sizeof(pthread_t) * params.n_philo);

@@ -11,12 +11,12 @@ int	check_philo_number(int n_philo)
 {
 	if (n_philo > 200)
 	{
-		write(1, "Number of philosophers exceeds 200\n", 42);
+		printf("Number of philosophers exceeds 200\n");
 		return (1);
 	}
 	if (n_philo <= 0)
 	{
-		write(1, "\033[0;41mError\033[0m\n", 50);
+		printf("\033[0;41mError\033[0m\n");
 		return (1);
 	}
 	return (0);
@@ -26,7 +26,7 @@ int	check_limits(char **argv)
 {
 	int	n_philo;
 
-	n_philo = ft_atoi(av[1]);
+	n_philo = ft_atoi(argv[1]);
 	if (check_philo_number(n_philo))
 		return (1);
 	return (0);
@@ -52,7 +52,7 @@ int	check_args(int argc, char **argv)
 
 	if (argc != 5 && argc != 6)
 	{
-		write(1, "./philo [n_philo] [time_die][time_eat] [time_sleep]\n", 6);
+		printf("./philo [n_philo] [time_die][time_eat] [time_sleep]\n");
 		return (1);
 	}
 	if (check_limits(argv))
@@ -62,7 +62,7 @@ int	check_args(int argc, char **argv)
 	{
 		if (!check_digits(argv[i]))
 		{
-			write(1, "\033[0;41mError\033[0m\n", 50);
+			printf("\033[0;41mError\033[0m\n");
 			return (1);
 		}
 		i++;

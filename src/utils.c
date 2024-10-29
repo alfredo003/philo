@@ -9,7 +9,7 @@ int	get_elapsed_time_ms(struct timeval ta)
 		- (ta.tv_sec * 1000 + ta.tv_usec / 1000));
 }
 
-void	ft_usleep(t_ph *ph, int time)
+void	ft_usleep(t_philo *philo, int time)
 {
 	struct timeval	before;
 	struct timeval	end;
@@ -21,7 +21,7 @@ void	ft_usleep(t_ph *ph, int time)
 		gettimeofday(&end, NULL);
 		elapsed_time = (end.tv_sec * 1000 + end.tv_usec / 1000)
 			- (before.tv_sec * 1000 + before.tv_usec / 1000);
-		if (elapsed_time >= time || ft_die(ph))
+		if (elapsed_time >= time || ft_die(philo))
 			break ;
 		usleep(100);
 	}

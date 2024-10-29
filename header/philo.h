@@ -15,9 +15,9 @@ typedef struct s_params
 	pthread_mutex_t	dead_mutex;
 	pthread_mutex_t	g_print_mutex;
 	int				n_philo;
-	int				t_die;
-	int				t_eat;
-	int				t_sleep;
+	int				time_die;
+	int				time_eat;
+	int				time_sleep;
 	int				died;
 	int				ac;
 	char			**av;
@@ -30,19 +30,19 @@ typedef struct s_philo
 	int				t_last_meal;
 	int				stamina;
 	struct timeval	t_born;
-	t_th			*th;
+	t_params			*par;
 }					t_philo;
 
-void		start_structs(t_th *th, int ac, char **av);
-void		init_ph(t_ph *ph, t_th *th, int id);
+void		init_params(t_params *params, int argc, char **argv);
+void		init_philo(t_philo *philo, t_params *params, int id);
 int			ft_atoi(const char *str);
 int			get_elapsed_time_ms(struct timeval ta);
-void		ft_usleep(t_ph *ph, int time);
-void		ft_printf_status(t_ph *ph, char c);
-void		check_forks(t_ph *ph);
-void		ft_eat(t_ph *ph);
-int			ft_die(t_ph *ph);
-void		caseof1(t_ph *ph);
-int			destroy_my_mutex(t_th *th);
-int			validate_args(int ac, char **av);
+void		ft_usleep(t_philo *philo, int time);
+void		ft_printf_status(t_philo *philo, char c);
+void		check_forks(t_philo *philo);
+void		ft_eat(t_philo *philo);
+int			ft_die(t_philo *philo);
+void		caseof1(t_philo *ph);
+int			destroy_my_mutex(t_params *params);
+int	check_args(int argc, char **argv);
 #endif
