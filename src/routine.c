@@ -78,7 +78,7 @@ char	*ft_status(char c)
 	else if (c == 't')
 		str = "is thinking\n";
 	else
-		str = "\033[0;41mdied\033[0m\n";
+		str = "\033[0;31mdied\033[0m\n";
 	return (str);
 }
 

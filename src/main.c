@@ -26,6 +26,8 @@ void	case_one_philo(t_philo *philo)
 {
 	gettimeofday(&philo->time_born, NULL);
 	ft_usleep(philo, philo->par->time_die);
+	printf("%d %d has taken a fork\n",
+		get_elapsed_time(philo->time_born), philo->id);
 	printf("%d %d \033[0;31mdied\033[0m\n",
 		get_elapsed_time(philo->time_born), philo->id);
 }
