@@ -1,11 +1,23 @@
- #include "../header/philo.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: achivela <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/30 15:05:17 by achivela          #+#    #+#             */
+/*   Updated: 2024/10/30 15:05:23 by achivela         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int	get_elapsed_time_ms(struct timeval ta)
+#include "../header/philo.h"
+
+int	get_elapsed_time(struct timeval ta)
 {
-	struct timeval	tm;
+	struct timeval	now;
 
-	gettimeofday(&tm, NULL);
-	return ((tm.tv_sec * 1000 + tm.tv_usec / 1000)
+	gettimeofday(&now, NULL);
+	return ((now.tv_sec * 1000 + now.tv_usec / 1000)
 		- (ta.tv_sec * 1000 + ta.tv_usec / 1000));
 }
 
@@ -27,39 +39,30 @@ void	ft_usleep(t_philo *philo, int time)
 	}
 }
 
-int	ft_result(int k, const char *str, int i)
-{
-	int	a;
-
-	a = 0;
-	while (str[i] >= '0' && str[i] <= '9')
-	{
-		a = (a * 10) + (str[i] - '0');
-		i++;
-	}
-	if (k == 1)
-		a = a * -1;
-	return (a);
-}
-
 int	ft_atoi(const char *str)
 {
-	intptr_t	a;
-	int			i;
-	int			k;
+	int	i;
+	int	neg;
+	int	res;
 
-	a = 0;
 	i = 0;
-	k = 0;
-	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
+	neg = 0;
+	res = 0;
+	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\f'
+		|| str[i] == '\v' || str[i] == '\n' || str[i] == '\r')
 		i++;
-	if (str[i] == '+' || str[i] == '-')
+	if (str[i] == '-')
+		neg = 1;
+	if (str[i] == '-' || str[i] == '+')
+		i++;
+	while (str[i] >= '0' && str[i] <= '9')
 	{
-		if (str[i] == '-')
-			k++;
+		res *= 10;
+		res += str[i] - 48;
 		i++;
 	}
-	if (str[i] >= '0' && str[i] <= '9')
-		return (ft_result(k, str, i));
-	return (a);
+	if (neg == 1)
+		return (-res);
+	else
+		return (res);
 }

@@ -1,20 +1,33 @@
- #include "../header/philo.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: achivela <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/30 12:35:29 by achivela          #+#    #+#             */
+/*   Updated: 2024/10/30 12:36:01 by achivela         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int	ft_wait_for_start(t_philo *philo)
+#include "../header/philo.h"
+
+int	wait_for_start(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->par->init_mutex);
-	gettimeofday(&philo->t_born, NULL);
+	gettimeofday(&philo->time_born, NULL);
 	pthread_mutex_unlock(&philo->par->init_mutex);
 	if (philo->id % 2 == 0)
 		ft_usleep(philo, 10);
 	return (1);
 }
 
-void	caseof1(t_philo *philo)
+void	case_one_philo(t_philo *philo)
 {
-	gettimeofday(&philo->t_born, NULL);
+	gettimeofday(&philo->time_born, NULL);
 	ft_usleep(philo, philo->par->time_die);
-	printf("%d %d died\n", get_elapsed_time_ms(philo->t_born), philo->id);
+	printf("%d %d \033[0;31mdied\033[0m\n",
+		get_elapsed_time(philo->time_born), philo->id);
 }
 
 void	*ft_routine(void *arg)
@@ -24,11 +37,11 @@ void	*ft_routine(void *arg)
 	philo = *(t_philo *)arg;
 	if (philo.par->n_philo == 1)
 	{
-		caseof1(&philo);
+		case_one_philo(&philo);
 		return (NULL);
 	}
 	else
-		ft_wait_for_start(&philo);
+		wait_for_start(&philo);
 	while (philo.num_ref != 0)
 	{
 		if (ft_die(&philo))
@@ -66,14 +79,12 @@ int	main(int argc, char **argv)
 {
 	t_params	params;
 	t_philo		*philo;
-	int	i;
+	int			i;
 
 	i = 0;
 	if (check_args(argc, argv))
 		return (1);
 	init_params(&params, argc, argv);
-	params.ac = argc;
-	params.av = argv;
 	params.threads = (pthread_t *)malloc(sizeof(pthread_t) * params.n_philo);
 	philo = (t_philo *)malloc(sizeof(t_philo) * params.n_philo);
 	while (i < params.n_philo)

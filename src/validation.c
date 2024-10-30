@@ -1,4 +1,16 @@
- #include "../header/philo.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   validation.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: achivela <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/30 15:05:59 by achivela          #+#    #+#             */
+/*   Updated: 2024/10/30 15:06:10 by achivela         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../header/philo.h"
 
 int	ft_isdigit(int c)
 {
@@ -39,6 +51,8 @@ int	check_digits(char *str)
 	i = 0;
 	while (str[i])
 	{
+		if (str[i] == '+')
+			i++;
 		if (!ft_isdigit(str[i]))
 			return (0);
 		i++;
@@ -59,7 +73,7 @@ int	check_args(int argc, char **argv)
 		return (1);
 	i = 1;
 	while (i < argc)
-	{
+	{	
 		if (!check_digits(argv[i]))
 		{
 			printf("\033[0;41mError\033[0m\n");

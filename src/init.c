@@ -1,4 +1,16 @@
- #include "../header/philo.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: achivela <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/30 14:48:54 by achivela          #+#    #+#             */
+/*   Updated: 2024/10/30 14:48:57 by achivela         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../header/philo.h"
 
 void	init_threads(t_params *params, char **argv)
 {
@@ -17,7 +29,7 @@ void	init_philo(t_philo *philo, t_params *params, int id)
 	philo->id = id;
 	philo->par = params;
 	philo->stamina = params->time_die;
-	philo->t_last_meal = 0;
+	philo->time_last_meal = 0;
 	if (params->ac == 6)
 		philo->num_ref = ft_atoi(params->av[5]);
 	else
@@ -42,6 +54,8 @@ void	start_forks_mutex(t_params *params)
 void	init_params(t_params *params, int argc, char **argv)
 {
 	(void)argc;
+	params->ac = argc;
+	params->av = argv;
 	init_threads(params, argv);
 	start_forks_mutex(params);
 }
