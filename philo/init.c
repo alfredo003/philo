@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/philo.h"
+#include "philo.h"
 
 void	init_philo(t_philo *philo, t_params *params, int id)
 {

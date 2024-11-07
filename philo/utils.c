@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/philo.h"
+#include "philo.h"
 
 int	get_elapsed_time(struct timeval ta)
 {

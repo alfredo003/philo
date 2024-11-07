@@ -9,7 +9,7 @@
 /*   Updated: 2024/10/30 14:40:43 by achivela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../header/philo.h"
+#include "philo.h"
 
 void	ft_eat(t_philo *philo)
 {

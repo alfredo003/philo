@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/philo.h"
+#include "philo.h"
 
 int	wait_for_start(t_philo *philo)
 {
